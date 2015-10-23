@@ -1,0 +1,5 @@
+{
+    "ListenHostname": "0.0.0.0",
+    "ListenPort": 8080,
+    "CallbackHost": "//0.0.0.0:8080"
+}
