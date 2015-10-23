@@ -64,7 +64,7 @@
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
 		updateUrlTrackId(xhttp.responseText);
 	    } else {
-		//alert(xhttp.responseText);
+		//console.log(xhttp);
 	    }
 	}
 	xhttp.open("POST", callback, true);

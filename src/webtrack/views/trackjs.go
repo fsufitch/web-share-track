@@ -27,7 +27,7 @@ func RenderTrackingJs(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/javascript")
 
 	user_key := mux.Vars(r)["userKey"]
-	cb_url, err := webtrack.Router.Get("track_callback").URL(
+	cb_url, err := webtrack.BootstrapURL("track_callback",
 		"userKey", user_key,
 		"origTrackId", "",
 	)
@@ -36,7 +36,7 @@ func RenderTrackingJs(w http.ResponseWriter, r *http.Request) {
 
 	data := TrackJsData{
 		Key: user_key,
-		Callback: cb_url.String(),
+		Callback: cb_url,
 	}
 
 	var maxjs bytes.Buffer 
@@ -47,7 +47,8 @@ func RenderTrackingJs(w http.ResponseWriter, r *http.Request) {
 }
 
 func TrackingCallback(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
 
 	data := TrackJsData{
 		Key: mux.Vars(r)["userKey"],
@@ -61,9 +62,12 @@ func TrackingCallback(w http.ResponseWriter, r *http.Request) {
 	output, err := json.Marshal(data)
 	webtrack.CheckErrorPanic(err)
 	
+	fmt.Println(string(output))
 	w.Write(output)
 }
 
+
+// Stub
 var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 func makeTrackingId() string {
