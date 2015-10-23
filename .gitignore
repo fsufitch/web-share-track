@@ -24,5 +24,11 @@ _testmain.go
 *.prof
 
 # deps, etc
+bin/
 src/github.com
 pkg/
+
+# Irrelevant files
+
+*~
+\#*\#
